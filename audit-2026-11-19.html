@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dirigible.com.ng — Website Health &amp; Upgrade Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7FAFB; --panel:#FFFFFF; --ink:#1C2B33; --slate:#51626D; --line:#D9E3EA;
+  --blue:#0E5A8A; --blue-tint:#E3F0F7;
+  --good:#1E7D46; --good-tint:#E8F5EC;
+  --warn:#9A5B10; --warn-tint:#FBF0DE;
+  --bad:#B3362E; --bad-tint:#FBEAE8;
+  --calm:#4A6472; --calm-tint:#EAF0F3;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Public Sans",-apple-system,"Segoe UI",sans-serif;
+  font-size:16.5px;line-height:1.65;}
+main,footer>.wrap{max-width:60rem;margin:0 auto;padding:0 1.4rem}
+h1,h2,h3{font-family:"Bricolage Grotesque","Public Sans",sans-serif;line-height:1.15;margin:0}
+p{margin:.6rem 0}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+
+/* top bar */
+.topbar{background:var(--panel);border-bottom:1px solid var(--line)}
+.topbar .wrap{max-width:60rem;margin:0 auto;padding:.9rem 1.4rem;display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:baseline;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.55rem;font-family:"Bricolage Grotesque";font-weight:600;font-size:1.02rem}
+.brand .mark{width:1.55rem;height:1.55rem;border-radius:999px;background:var(--blue);
+  display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;flex:none}
+.topmeta{color:var(--slate);font-size:.88rem}
+
+/* hero */
+.hero{padding:3.2rem 0 2.6rem;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.3rem);font-weight:700;letter-spacing:-.015em}
+.hero .lead{max-width:44rem;color:var(--slate);font-size:1.12rem;margin-top:1rem}
+.hero .lead strong{color:var(--ink)}
+.verdict{display:inline-flex;align-items:center;gap:.5rem;background:var(--good-tint);color:var(--good);
+  border:1px solid #BFE3CB;border-radius:999px;padding:.32rem .95rem;font-weight:600;font-size:.92rem;margin-bottom:1.1rem}
+
+/* gap meter */
+.gaps{margin-top:2.4rem;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.5rem 1.1rem}
+.gaps h2{font-size:1.05rem;font-weight:600;margin-bottom:1.2rem;color:var(--ink)}
+.gap-row{display:grid;grid-template-columns:8.5rem 1fr;gap:.4rem 1rem;align-items:center;padding:.75rem 0;border-top:1px solid var(--line)}
+.gap-row:first-of-type{border-top:0}
+.gap-name{font-weight:600;font-size:.98rem}
+.gap-sub{display:block;color:var(--slate);font-size:.8rem;font-weight:400}
+.gapviz{display:flex;align-items:center;gap:.55rem;min-width:0}
+.chip{font-size:.82rem;font-weight:600;border-radius:999px;padding:.18rem .6rem;white-space:nowrap;background:var(--calm-tint);color:var(--ink);border:1px solid var(--line)}
+.chip.now{background:#fff}
+.chip.goal{background:var(--blue-tint);color:var(--blue);border-color:#BFDCEB}
+.gapline{position:relative;flex:1;height:6px;border-radius:999px;background:var(--calm-tint);min-width:2rem}
+.gapline i{position:absolute;top:0;height:100%;border-radius:999px;display:block}
+.gapline .far{background:var(--bad);opacity:.55}
+.gapline .near{background:var(--warn);opacity:.6}
+.gapline .done{background:var(--good);opacity:.8}
+.gap-note{grid-column:2;color:var(--slate);font-size:.82rem;margin:-0.35rem 0 0}
+
+/* corrections */
+.corrections{margin-top:1.6rem;display:grid;gap:.8rem;grid-template-columns:1fr 1fr}
+@media (max-width:640px){.corrections{grid-template-columns:1fr}}
+.correction{background:var(--warn-tint);border:1px solid #EAD3A8;border-radius:12px;padding:1rem 1.2rem}
+.correction h3{font-size:.98rem;color:var(--warn);margin-bottom:.3rem}
+.correction p{margin:0;font-size:.94rem;color:var(--ink)}
+
+/* sections */
+section.block{padding:2.7rem 0;border-bottom:1px solid var(--line)}
+section.block:last-of-type{border-bottom:0}
+section.block h2{font-size:1.55rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.4rem}
+section.block .intro{color:var(--slate);max-width:42rem;margin-bottom:1.4rem}
+.kicker{font-size:.9rem;color:var(--blue);font-weight:600;margin-bottom:.25rem}
+
+/* tables */
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.95rem}
+th,td{text-align:left;padding:.62rem .8rem;border-top:1px solid var(--line);vertical-align:top}
+thead th{border-top:0;background:var(--blue-tint);color:var(--ink);font-weight:600;font-size:.88rem}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.caption{color:var(--slate);font-size:.85rem;margin:.5rem 2px 0}
+.scroller{overflow-x:auto;border-radius:12px}
+.badge{display:inline-block;border-radius:999px;padding:.14rem .62rem;font-size:.76rem;font-weight:700;white-space:nowrap}
+.b-crit{background:var(--bad-tint);color:var(--bad)}
+.b-high{background:#FCE9D8;color:#8A4A0B}
+.b-med{background:var(--warn-tint);color:var(--warn)}
+.b-low{background:var(--calm-tint);color:var(--calm)}
+.b-ok{background:var(--good-tint);color:var(--good)}
+.cve{color:var(--slate);font-size:.78rem;display:block;margin-top:.15rem}
+
+/* dead plugin panels */
+.panels{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+@media (max-width:720px){.panels{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.25rem}
+.panel h3{font-size:1rem;margin-bottom:.45rem}
+.panel ul{margin:0;padding-left:1.1rem}
+.panel li{margin:.3rem 0;font-size:.94rem}
+.panel.wide{grid-column:1/-1}
+
+/* plan */
+.steps{list-style:none;margin:0;padding:0;position:relative}
+.steps li{position:relative;padding:0 0 1.5rem 3.4rem}
+.steps li:before{counter-increment:step;content:counter(step);position:absolute;left:0;top:.05rem;
+  width:2.1rem;height:2.1rem;border-radius:999px;background:var(--blue);color:#fff;
+  font-family:"Public Sans";font-weight:700;font-size:.95rem;display:flex;align-items:center;justify-content:center}
+.steps:after{content:"";position:absolute;left:1.04rem;top:2.1rem;bottom:1.2rem;width:2px;background:var(--line)}
+.steps li{counter-reset:none}
+.steps{counter-reset:step}
+.steps h3{font-size:1.05rem;margin-bottom:.25rem}
+.steps p{margin:.15rem 0;color:var(--slate);font-size:.96rem;max-width:40rem}
+.steps .tag{display:inline-block;font-size:.74rem;font-weight:700;border-radius:999px;padding:.1rem .55rem;margin-left:.45rem;vertical-align:.12em;background:var(--bad-tint);color:var(--bad)}
+.steps .tag.safe{background:var(--good-tint);color:var(--good)}
+.checks{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem 1.3rem;margin-top:.4rem}
+.checks h3{font-size:.98rem;margin-bottom:.5rem}
+.checks ul{list-style:none;margin:0;padding:0;columns:2;column-gap:2rem}
+@media (max-width:640px){.checks ul{columns:1}}
+.checks li{padding:.22rem 0 .22rem 1.5rem;position:relative;font-size:.94rem;break-inside:avoid}
+.checks li:before{content:"✓";position:absolute;left:0;color:var(--good);font-weight:700}
+
+/* decisions */
+.decision{display:flex;gap:.9rem;padding:.9rem 0;border-top:1px solid var(--line)}
+.decision:first-of-type{border-top:0}
+.decision .dtag{flex:none;align-self:flex-start;font-size:.74rem;font-weight:700;color:var(--blue);background:var(--blue-tint);border-radius:999px;padding:.16rem .6rem}
+.decision p{margin:0;font-size:.96rem}
+.decision strong{font-weight:600}
+
+/* after list + footer */
+.plainlist{margin:.4rem 0 0;padding-left:1.2rem}
+.plainlist li{margin:.35rem 0;max-width:42rem}
+footer{padding:2.2rem 0 3rem;color:var(--slate);font-size:.88rem}
+footer .note{background:var(--calm-tint);border-radius:12px;padding:1rem 1.2rem;margin-top:1rem;max-width:52rem}
+
+/* print */
+@media print{
+  body{background:#fff;font-size:12.5px}
+  .topbar{border-color:#ccc}
+  section.block,.gaps,.correction,table,.panel,.checks{break-inside:avoid}
+  .hero{padding-top:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand"><span class="mark">D</span> dirigible.com.ng</span>
+    <span class="topmeta">Website Health &amp; Upgrade Report &nbsp;|&nbsp; 19 November 2026</span>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <span class="verdict">Independent technical audit</span>
+  <h1>No redesign needed.</h1>
+  <p class="lead"><strong>Your website does not need to be rebuilt.</strong> The design, content, products and orders can all stay exactly as they are. What the site needs is a scheduled maintenance upgrade: WordPress, WooCommerce and plugins brought up to date by a developer, on a safe staging copy first, then applied to the live store.</p>
+
+  <div class="gaps" role="img" aria-label="Version gap chart: WordPress 6.9.1 versus current 7.1.5; WooCommerce 4.3.0 versus current 11.3.0, thirteen major versions behind; PHP 8.3.32 already current">
+    <h2>How far behind is the engine?</h2>
+    <div class="gap-row">
+      <span class="gap-name">WooCommerce<span class="gap-sub">runs the store, 11,433 products</span></span>
+      <span class="gapviz"><span class="chip now">4.3.0</span><span class="gapline"><i class="far" style="width:100%"></i></span><span class="chip goal">11.3.0</span></span>
+      <span class="gap-note">13 major versions behind: installed Aug 2020, and the current release dates from Nov 2026.</span>
+    </div>
+    <div class="gap-row">
+      <span class="gap-name">WordPress<span class="gap-sub">the core software</span></span>
+      <span class="gapviz"><span class="chip now">6.9.1</span><span class="gapline"><i class="near" style="width:38%"></i></span><span class="chip goal">7.1.5</span></span>
+      <span class="gap-note">Behind, and the installed version has an actively exploited security flaw. This one is urgent.</span>
+    </div>
+    <div class="gap-row">
+      <span class="gap-name">PHP<span class="gap-sub">the server language</span></span>
+      <span class="gapviz"><span class="chip now">8.3.32</span><span class="gapline"><i class="done" style="width:100%"></i></span><span class="chip goal">current</span></span>
+      <span class="gap-note">Already on the newest major version. No PHP work needed.</span>
+    </div>
+  </div>
+
+  <div class="corrections">
+    <div class="correction">
+      <h3>Correction 1 — PHP</h3>
+      <p>Earlier hosting advice said the site runs PHP 7.4 and needs an upgrade. The site's own diagnostics show it already runs PHP 8.3.32. No PHP upgrade is required.</p>
+    </div>
+    <div class="correction">
+      <h3>Correction 2 — WordPress updates</h3>
+      <p>The dashboard claims "you have the latest version". That message cannot be trusted: update checking is switched off by plugins on the site. WordPress 7.1.5 is the real current release.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="verified">
+  <p class="kicker">What we verified</p>
+  <h2>The site today, read from its own diagnostics</h2>
+  <p class="intro">Every figure below was read directly from the live site's built-in health records and admin pages, in read-only mode. Nothing was changed during the audit.</p>
+  <div class="scroller"><table>
+    <thead><tr><th>Component</th><th>Installed</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>PHP (server language)</td><td class="num">8.3.32</td><td><span class="badge b-ok">Current</span></td></tr>
+      <tr><td>WordPress</td><td class="num">6.9.1</td><td><span class="badge b-crit">Behind, security flaw</span></td></tr>
+      <tr><td>WooCommerce</td><td class="num">4.3.0 (Aug 2020)</td><td><span class="badge b-high">13 majors behind</span></td></tr>
+      <tr><td>Plugins</td><td class="num">50 active, 7 inactive</td><td><span class="badge b-med">Most far out of date</span></td></tr>
+      <tr><td>Theme</td><td>"Dirigible", custom, v2.3</td><td><span class="badge b-ok">Custom, stays as-is</span></td></tr>
+      <tr><td>Products</td><td class="num">11,433</td><td><span class="badge b-ok">Untouched by upgrade</span></td></tr>
+      <tr><td>Checkout type</td><td>Classic page checkout</td><td><span class="badge b-ok">Still fully supported</span></td></tr>
+      <tr><td>Caching (LiteSpeed)</td><td class="num">7.8, serving hits</td><td><span class="badge b-ok">Working</span></td></tr>
+      <tr><td>Update notices in dashboard</td><td>Showing none</td><td><span class="badge b-crit">Hidden, not true</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="block" id="findings">
+  <p class="kicker">Why act now</p>
+  <h2>Security findings, most serious first</h2>
+  <p class="intro">Out-of-date plugins are not only a speed issue. The exact versions installed today carry publicly documented vulnerabilities (from the Patchstack, Wordfence and NVD databases). The critical ones do not require a password to attack.</p>
+  <div class="scroller"><table>
+    <thead><tr><th>Severity</th><th>Component</th><th>Installed</th><th>First safe version</th><th>Issue</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge b-crit">Critical</span></td><td>WordPress core</td><td class="num">6.9.1</td><td class="num">7.1.5</td><td>Remote code execution chain, actively exploited, on CISA's known-exploited list since July 2026.<span class="cve">CVE-2026-63030, CVE-2026-60137</span></td></tr>
+      <tr><td><span class="badge b-crit">Critical</span></td><td>TI WooCommerce Wishlist</td><td class="num">1.23.3</td><td class="num">2.14.2</td><td>Visitor can upload files without an account (severity 10.0), plus SQL injection seen in real attacks.<span class="cve">CVE-2025-47577, CVE-2024-43917</span></td></tr>
+      <tr><td><span class="badge b-crit">Critical</span></td><td>WCFM Membership</td><td class="num">2.10.6</td><td class="num">2.12.1</td><td>Anyone can reset an administrator's password and take over the site.<span class="cve">CVE-2023-2276</span></td></tr>
+      <tr><td><span class="badge b-high">High</span></td><td>WCFM Marketplace</td><td class="num">3.5.9</td><td class="num">3.8.4</td><td>Two SQL injection flaws reachable without an account.<span class="cve">CVE-2026-18442, CVE-2026-81286</span></td></tr>
+      <tr><td><span class="badge b-high">High</span></td><td>WCFM Frontend Manager</td><td class="num">6.6.5</td><td class="num">6.8.2</td><td>Vendor-panel flaw that leads to full account takeover.<span class="cve">CVE-2024-8290</span></td></tr>
+      <tr><td><span class="badge b-high">High</span></td><td>Advanced Custom Fields</td><td class="num">5.9.5</td><td class="num">6.8.11</td><td>Multiple documented flaws. No safe 5.x version exists; the plugin must move to 6.x.</td></tr>
+      <tr><td><span class="badge b-high">High</span></td><td>WooCommerce core</td><td class="num">4.3.0</td><td class="num">11.3.0</td><td>About 33 documented flaws in this range. Most were never patched for version 4.x, so updating is the only fix.</td></tr>
+      <tr><td><span class="badge b-med">Medium</span></td><td>Paystack payment gateway</td><td class="num">5.7</td><td class="num">5.8.6</td><td>Customer data can be exposed (only while an optional metadata setting is on).<span class="cve">CVE-2026-93370</span></td></tr>
+      <tr><td><span class="badge b-med">Medium</span></td><td>WP Image Zoom</td><td class="num">1.46</td><td class="num">1.63</td><td>Local file inclusion flaw.<span class="cve">CVE-2021-24447</span></td></tr>
+      <tr><td><span class="badge b-low">Low</span></td><td>Easy WP SMTP</td><td class="num">2.0.0</td><td class="num">2.15.1</td><td>Minor data exposure, admin-only.<span class="cve">CVE-2024-3073</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="caption">Details are deliberately kept at summary level. Full technical references can be handed to your engineer on request.</p>
+</section>
+
+<section class="block" id="stuck">
+  <p class="kicker">The hidden problem</p>
+  <h2>Some plugins can never update on their own</h2>
+  <p class="intro">Four active plugins no longer exist on the WordPress plugin directory at all, so no update will ever arrive for them. Nine more were renamed on the directory, which silently breaks the site's update checker even for plugins that are still maintained.</p>
+  <div class="panels">
+    <div class="panel">
+      <h3>Removed from WordPress.org (still running on the site)</h3>
+      <ul>
+        <li><strong>WP Mega Menu</strong> — builds the site's navigation; closed since 2016.</li>
+        <li><strong>Simple Google reCAPTCHA</strong> — the site's bot protection; removed in 2023.</li>
+        <li><strong>ITRO Popup</strong> — removed from the directory in Nov 2026, with a known flaw and no fix coming.</li>
+        <li><strong>P3 Profiler</strong> — obsolete measuring tool, dead weight.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Renamed on WordPress.org (updates silently lost)</h3>
+      <ul>
+        <li><strong>Paystack gateway</strong> is now "woo-paystack".</li>
+        <li><strong>Ivory Search</strong> is now "add-search-to-menu".</li>
+        <li><strong>Mailchimp, Brands, Image Zoom, Shipping &amp; Tax</strong> and four others were also renamed.</li>
+        <li>These need a one-time reinstall from their new listings, then updates flow normally.</li>
+      </ul>
+    </div>
+    <div class="panel wide">
+      <h3>Why the dashboard says "no updates available"</h3>
+      <p style="margin:.2rem 0 0">Two plugins on the site (Easy Updates Manager and WP Disable Automatic Updates) are configured to suppress update checking. Combined with the renamed slugs above, the dashboard shows a false "everything is fine" picture. Step 2 of the plan below switches this back on, so the admin area tells the truth from then on.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="plan">
+  <p class="kicker">The work</p>
+  <h2>Upgrade plan, in the safe order</h2>
+  <p class="intro">WooCommerce's own documentation recommends updating the core, extensions, payment gateways and theme together as one coordinated set, on staging first. With 11,433 products this is a half-day of careful work on staging, not a five-minute click.</p>
+  <ol class="steps">
+    <li><h3>Full backup, then a staging copy</h3><p>Files and database. All testing happens on the copy; the live store keeps selling while the work is done.</p></li>
+    <li><h3>Restore update visibility</h3><p>Adjust the two update-manager plugins so the dashboard shows real update status again.</p></li>
+    <li><h3>Update WordPress 6.9.1 → 7.1.5 <span class="tag">security, first</span></h3><p>Closes the actively exploited flaw. Done before WooCommerce because current WooCommerce requires WordPress 7 or newer.</p></li>
+    <li><h3>Update WooCommerce 4.3.0 → 11.3.0</h3><p>The store's database upgrade runs in the background and can take a while with 11,433 products. If it stalls, it is restarted safely from the command line.</p></li>
+    <li><h3>Update extensions as one set</h3><p>Paystack first (money path), then Customer Reviews, Wishlist 2.x, Advanced Custom Fields 6.x (theme fields verified), currency switcher, Yoast suite where licensed, and the three WCFM vendor plugins last.</p></li>
+    <li><h3>Remove or replace the dead plugins</h3><p>The four retired plugins come off. The mega-menu and captcha get maintained replacements, or are dropped if unused.</p></li>
+    <li><h3>Test on staging</h3><p>See the checklist below. Nothing touches the live store until every line passes.</p></li>
+    <li><h3>Apply to production <span class="tag safe">design unchanged</span></h3><p>Fresh backup, same order, short verification window. The design, products, customers and order history all carry over untouched. Classic checkout remains fully supported in current WooCommerce.</p></li>
+  </ol>
+  <div class="checks">
+    <h3>Test checklist before go-live</h3>
+    <ul>
+      <li>Homepage and navigation menus</li>
+      <li>Category and product pages</li>
+      <li>Image zoom and gallery</li>
+      <li>Wishlist add and remove</li>
+      <li>Currency switcher</li>
+      <li>Cart and checkout page</li>
+      <li>Live-mode Paystack test charge and refund</li>
+      <li>Order confirmation emails</li>
+      <li>Contact and inquiry forms</li>
+      <li>WCFM vendor dashboard</li>
+      <li>Customer reviews display</li>
+      <li>Admin login and order export</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="decisions">
+  <p class="kicker">From Dirigible</p>
+  <h2>Three decisions to make before the work starts</h2>
+  <div class="decision"><span class="dtag">License</span><p><strong>Premium plugin licenses.</strong> Updates for Yoast Premium (with Local, News, Video and WooCommerce SEO add-ons), the Pro currency switcher, Estimate Delivery Pro and the SMS notifier are locked behind license keys. Renewals are needed, or those plugins are dropped.</p></div>
+  <div class="decision"><span class="dtag">Keep or cut</span><p><strong>The WCFM multivendor system.</strong> If outside vendors actively sell on the store, it gets updated. If it is unused, removing it eliminates the largest single block of security risk on the site.</p></div>
+  <div class="decision"><span class="dtag">Replace</span><p><strong>Retired components.</strong> A maintained captcha and a maintained navigation menu replace the two retired ones, or those features are dropped. The popup plugin is simply removed.</p></div>
+</section>
+
+<section class="block" id="after">
+  <p class="kicker">Optional but wise</p>
+  <h2>Small hardening steps after the upgrade</h2>
+  <ul class="plainlist">
+    <li>Turn off XML-RPC if nothing uses it (it currently answers, and attackers use it for password guessing).</li>
+    <li>Add the HSTS security header.</li>
+    <li>Fix robots.txt, which points to a broken sitemap address; the working sitemap is already live at <a href="https://dirigible.com.ng/sitemap_index.xml">dirigible.com.ng/sitemap_index.xml</a>.</li>
+    <li>Later, at leisure: switch orders to WooCommerce's modern order tables (optional, reversible, not required).</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Prepared 19 November 2026 from a read-only audit of the live site. No files, settings or data were changed during the audit. Figures for plugin versions and vulnerabilities were cross-checked against wordpress.org, Patchstack, Wordfence and NVD on the same date.</p>
+    <div class="note">Vulnerability details are summarised on purpose. This page describes the state of the site at audit time; once the upgrade plan is complete, a fresh check should be run to confirm the findings are cleared.</div>
+  </div>
+</footer>
+
+</body>
+</html>
